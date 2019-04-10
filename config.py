@@ -228,8 +228,8 @@ def configure(env):
             env.android_add_dependency("compile 'com.google.firebase:firebase-firestore:17.1.0'")
 
         if p_config["Crashlytics"]:
-            env.android_add_gradle_classpath("io.fabric.tools:gradle:1.26.1")
-            env.android_add_dependency("compile 'com.crashlytics.sdk.android:crashlytics:2.9.8'")
+            env.android_add_gradle_classpath("io.fabric.tools:gradle:1.28.1")
+            env.android_add_dependency("compile 'com.crashlytics.sdk.android:crashlytics:2.9.9'")
             env.android_add_dependency("compile 'com.crashlytics.sdk.android:crashlytics-ndk:2.0.5'")
             env.android_add_gradle_plugin("io.fabric")
             env.android_add_gradle_content("""
