@@ -138,9 +138,9 @@ public class Notification {
 		bundle.putString("image_uri", (String) data.get("image_uri"));
 
 		bundle.putString("type", dict.optString("type", "text"));
-        bundle.putString("title", 
+        bundle.putString("title",
                 dict.optString("title", activity.getString(R.string.godot_project_name_string)));
-        bundle.putString("tag", 
+        bundle.putString("tag",
                 dict.optString("tag", activity.getString(R.string.godot_firebase_default_tag)));
 
         return bundle;
@@ -176,14 +176,28 @@ public class Notification {
         dispatch_single_job(get_bundle(data), seconds);
 	}
 
-	public void notifyInSecs(final String message, final int seconds) {
+	public void notifyInSecsWithTag(final String message, final int seconds, final String tag) {
 		Bundle bundle = new Bundle();
-		bundle.putString("tag", activity.getString(R.string.godot_firebase_default_tag));
+		bundle.putString("tag", tag);
 		bundle.putString("title", activity.getString(R.string.godot_project_name_string));
 		bundle.putString("message", message);
 		bundle.putString("type", "text");
 
-        dispatch_single_job(bundle, seconds);
+		dispatch_single_job(bundle, seconds);
+	}
+
+	public void notifyInSecs(final String message, final int seconds) {
+		notifyInSecsWithTag(message, seconds, activity.getString(R.string.godot_firebase_default_tag));
+	}
+
+	public void notifyInMins (final String message, final int mins) {
+		int seconds = mins * 60;
+		notifyInSecs(message, seconds);
+	}
+
+	public void notifyInMinsWithTag (final String message, final int mins, final String tag) {
+		int seconds = mins * 60;
+		notifyInSecsWithTag(message, seconds, tag);
 	}
 
     private void dispatch_single_job(Bundle bundle, int seconds) {
@@ -202,11 +216,6 @@ public class Notification {
 
 		dispatcher.mustSchedule(myJob);
     }
-
-	public void notifyInMins (final String message, final int mins) {
-		int seconds = mins * 60;
-		notifyInSecs(message, seconds);
-	}
 
 	public void sendMessage (final String data) {
 		FirebaseMessaging fm = FirebaseMessaging.getInstance();
