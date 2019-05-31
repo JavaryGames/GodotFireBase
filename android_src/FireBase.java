@@ -136,6 +136,13 @@ public class FireBase extends Godot.SingletonBase {
 			firebaseConfig = config;
 		} catch (JSONException e) { Utils.d("JSON Parse error: " + e.toString()); }
 
+		//Crashlytics++
+		if (config.optBoolean("Crashlytics", false)) {
+			Utils.d("Initializing Crashlytics.");
+			Crash.getInstance(activity).init(mFirebaseApp);
+		}
+		//Crashlytics--
+
 		//Analytics++
 		if (config.optBoolean("Analytics", true)) {
 			Utils.d("Initializing Firebase Analytics.");
@@ -196,13 +203,6 @@ public class FireBase extends Godot.SingletonBase {
 			Firestore.getInstance(activity).init(mFirebaseApp);
 		}
 		//Firestore--
-
-		//Crashlytics++
-		if (config.optBoolean("Crashlytics", false)) {
-			Utils.d("Initializing Crashlytics.");
-			Crash.getInstance(activity).init(mFirebaseApp);
-		}
-		//Crashlytics--
 
 		Utils.d("FireBase initialized.");
 	}
