@@ -58,7 +58,7 @@ public class Crash {
 		Crashlytics.setBool(key, value);
 	}
 
-	public void setReal(String key, double value) {
+	public void setReal(String key, float value) {
 		if (!isInitialized()) return;
 		Crashlytics.setDouble(key, value);
 	}

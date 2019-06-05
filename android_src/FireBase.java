@@ -847,7 +847,7 @@ public class FireBase extends Godot.SingletonBase {
 		Crash.getInstance(activity).setBool(key, value);
 	}
 
-	public void crash_set_real(String key,double value) {
+	public void crash_set_real(String key,float value) {
 		Crash.getInstance(activity).setReal(key, value);
 	}
 
