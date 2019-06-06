@@ -80,8 +80,17 @@ public class RemoteConfig {
 					Utils.d("RemoteConfig, Fetch Successed");
 
 					mFirebaseRemoteConfig.activateFetched();
+			
+					if (Utils.script_instanceID != -1){
+						GodotLib.calldeferred(Utils.script_instanceID, "_on_firebase_remoteconfig_fetch_successed",
+						new Object[] {"FireBase RemoteConfig fetch successed."});
+					}
 				} else {
 					Utils.d("RemoteConfig, Fetch Failed");
+					if (Utils.script_instanceID != -1){
+						GodotLib.calldeferred(Utils.script_instanceID, "_on_firebase_remoteconfig_fetch_failed",
+						new Object[] {"FireBase RemoteConfig fetch failed."});
+					}
 				}
 
 			// Utils.d("Fetched Value: " + getValue("firebase_remoteconfig_test"));
@@ -107,6 +116,11 @@ public class RemoteConfig {
 		Utils.d("RemoteConfig: Setting Default values, " + defaultsMap.toString());
 
 		mFirebaseRemoteConfig.setDefaults(defaultsMap);
+
+		if (Utils.script_instanceID != -1){
+			GodotLib.calldeferred(Utils.script_instanceID, "_on_firebase_remoteconfig_defaults_set",
+				new Object[] {"FireBase RemoteConfig defaults set."});
+		}
 	}
 
 	public String getValue (final String key) {

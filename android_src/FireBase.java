@@ -51,7 +51,7 @@ public class FireBase extends Godot.SingletonBase {
 
 	public FireBase(Activity p_activity) {
 		registerClass ("FireBase", new String[] {
-			"init", "initWithFile", "initWithJson", "alert", "set_debug",
+			"init", "initWithFile", "initWithJson", "alert",
 
 			//Analytics++
 			"setScreenName", "sendAchievement", "send_custom", "send_events", "join_group", "level_up",
@@ -204,7 +204,12 @@ public class FireBase extends Godot.SingletonBase {
 		}
 		//Firestore--
 
-		Utils.d("FireBase initialized.");
+		Utils.d("FireBase initialized. Calling _on_firebase_initialized on GDScript.");
+
+		if (Utils.script_instanceID != -1){
+			GodotLib.calldeferred(Utils.script_instanceID, "_on_firebase_initialized",
+			new Object[] {"FireBase successfully initialized."});
+		}
 	}
 
     public void set_debug(final boolean p_value) {
