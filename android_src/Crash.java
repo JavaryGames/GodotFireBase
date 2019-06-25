@@ -76,6 +76,21 @@ public class Crash {
 		}
 	}
 
+	public void logException(String message) {
+		if (!isInitialized()) return;
+		Crashlytics.logException(new Exception(message));
+	}
+
+	public void logWarning(String message) {
+		if (!isInitialized()) return;
+		Crashlytics.logException(new CrashlyticsWarningException(message));
+	}
+
+	public void logError(String message) {
+		if (!isInitialized()) return;
+		Crashlytics.logException(new CrashlyticsErrorException(message));
+	}
+
 	private boolean isInitialized() {
 		return mFirebaseApp != null;
 	}
@@ -88,4 +103,17 @@ public class Crash {
 	private static Crash mInstance = null;
 
 	private String userId = null;
+}
+
+class CrashlyticsWarningException extends Exception {
+	CrashlyticsWarningException(String message) {
+		super(message);
+	}
+
+}
+
+class CrashlyticsErrorException extends Exception {
+	CrashlyticsErrorException(String message) {
+		super(message);
+	}
 }

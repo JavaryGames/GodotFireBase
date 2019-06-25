@@ -113,7 +113,8 @@ public class FireBase extends Godot.SingletonBase {
 
 			//Crashlytics++
 			"crash", "crash_log", "crash_set_string", "crash_set_bool",
-			"crash_set_int", "crash_set_real", "crash_set_user_id"
+			"crash_set_int", "crash_set_real", "crash_set_user_id",
+			"crash_log_exception", "crash_log_warning", "crash_log_error"
 			//Crashlytics--
 		});
 
@@ -862,6 +863,18 @@ public class FireBase extends Godot.SingletonBase {
 
 	public void crash_set_user_id(String id) {
 		Crash.getInstance(activity).setUserId(id);
+	}
+
+	public void crash_log_exception(String message) {
+		Crash.getInstance(activity).logException(message);
+	}
+
+	public void crash_log_error(String message) {
+		Crash.getInstance(activity).logError(message);
+	}
+
+	public void crash_log_warning(String message) {
+		Crash.getInstance(activity).logWarning(message);
 	}
 	//Crashlytics--
 
