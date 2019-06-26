@@ -2,7 +2,6 @@
 #define GODOT_FIREBASE_H
 
 #include "core/version_generated.gen.h"
-
 #include "core/reference.h"
 
 #ifdef __OBJC__
@@ -18,11 +17,15 @@ typedef GodotFirebaseRewardedVideo *rewardedVideoPtr;
 @class GodotFirebaseAnalytics;
 typedef GodotFirebaseAnalytics *analyticsPtr;
 
+@class GodotFirebaseNotifications;
+typedef GodotFirebaseNotifications *notificationsPtr;
+
 #else
 
 typedef void *interstitialAdPtr;
 typedef void *rewardedVideoPtr;
 typedef void *analyticsPtr;
+typedef void *notificationsPtr;
 
 #endif
 
@@ -38,6 +41,7 @@ class GodotFirebase : public Reference {
     interstitialAdPtr interstitialAd;
     rewardedVideoPtr rewardedVideo;
     analyticsPtr analytics;
+    notificationsPtr notifications;
     
 protected:
     // void do_ios_rate(const String &app_id); TODO remove
@@ -55,8 +59,20 @@ public:
     void setScreenName(const String &screen_name);
     void send_events(const String &event_name, const Dictionary& key_values);
     
+
+    // Notifications ++
+    // "notifyInSecsWithTag"
+    // Notifications --
+
+    // todo: other NotifyIn* variants
+    
+    void notifyInSecsWithTag(const String &message, const int seconds, const String &tag);
+    void cancelNotificationWithTag(const String &tag);
+
     GodotFirebase();
     ~GodotFirebase();
 };
+
+
 
 #endif

@@ -1,6 +1,7 @@
 
 #include "godotFirebase.h"
 #import "app_delegate.h"
+#include "core/project_settings.h"
 
 #if VERSION_MAJOR == 3
 #define CLASS_DB ClassDB
@@ -33,6 +34,10 @@ void GodotFirebase::initWithJson(const String &json, const int script_id) {
     
     analytics = [GodotFirebaseAnalytics alloc];
     [analytics init];
+    
+    notifications = [GodotFirebaseNotifications alloc];
+    [notifications init];
+    
 }
 
 void GodotFirebase::load_interstitial() {
@@ -68,6 +73,26 @@ void GodotFirebase::send_events(const String &event_name, const Dictionary& key_
     [analytics send_events:[NSString stringWithCString:event_name.utf8().get_data() encoding: NSUTF8StringEncoding]: key_values];
 }
 
+// Notifications ++
+
+NSString *ns_string_from_gd_string(String string) {
+    return [NSString stringWithCString: string.utf8().get_data() encoding:NSUTF8StringEncoding];
+}
+
+void GodotFirebase::notifyInSecsWithTag(const String &message, const int seconds, const String &tag) {
+    NSString *title = ns_string_from_gd_string(String(ProjectSettings::get_singleton()->get_setting(String("application/config/name"))));
+    [notifications notifyInSecsWithMessage: ns_string_from_gd_string(message)
+                                 withTitle: title
+                               withSeconds: seconds
+                                   withTag: ns_string_from_gd_string(tag)];
+}
+
+void GodotFirebase::cancelNotificationWithTag(const String &tag) {
+    [notifications cancelNotificationWithTag: ns_string_from_gd_string(tag)];
+}
+
+// Notifications --
+
 void GodotFirebase::_bind_methods() {
     CLASS_DB::bind_method("initWithJson", &GodotFirebase::initWithJson);
     
@@ -78,7 +103,9 @@ void GodotFirebase::_bind_methods() {
     CLASS_DB::bind_method("show_rewarded_video", &GodotFirebase::show_rewarded_video);
     CLASS_DB::bind_method("setScreenName",  &GodotFirebase::setScreenName);
     CLASS_DB::bind_method("send_events", &GodotFirebase::send_events);
-    
+    // Notifications
+    CLASS_DB::bind_method("notify_in_secs_with_tag", &GodotFirebase::notifyInSecsWithTag);
+    CLASS_DB::bind_method("cancel_notification_with_tag", &GodotFirebase::cancelNotificationWithTag);
     /*
      Admob related functions to be implemented:
      
