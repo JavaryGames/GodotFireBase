@@ -9,7 +9,7 @@ BOOL is_authorized;
 
 @implementation GodotFirebaseNotifications
 
-- (void) init:(NSDictionary*)config_: (int)script_id_; {
+- (void) initWithCallback: (void (^)()) callback; {
     center = [UNUserNotificationCenter currentNotificationCenter];
     options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
     is_authorized = NO;
@@ -19,7 +19,7 @@ BOOL is_authorized;
         if (settings.authorizationStatus == UNAuthorizationStatusAuthorized) {
             NSLog(@"Notifications already authorized.");
             is_authorized = YES;
-            [self after_checked_authorization];
+            callback();
         }
         else {
             [center requestAuthorizationWithOptions:options
@@ -27,7 +27,7 @@ BOOL is_authorized;
                                       is_authorized = granted;
                                       if (!granted) {
                                           NSLog(@"User did not allow notifications");}
-                                      [self after_checked_authorization];
+                                      callback();
                                   }];
             
         }
@@ -35,8 +35,8 @@ BOOL is_authorized;
     
 }
 
-- (void) after_checked_authorization; {
-    
+- (NSString*) getToken; {
+    return self.token;
 }
 
 - (void) notifyInSecondsWithMessage: (NSString *) message
@@ -61,6 +61,8 @@ BOOL is_authorized;
                  withCompletionHandler:^(NSError * _Nullable error) {
                      if (error != nil) {
                          NSLog(@"Failed to schedule notification: %@",error);
+                     } else {
+                         NSLog(@"Successfully scheduled notification to %d seconds from now", seconds);
                      }
                  }];
     }
@@ -68,7 +70,12 @@ BOOL is_authorized;
 
 - (void) cancelNotificationWithTag: (NSString *) tag; {
     NSLog(@"Cancelling notification with tag %@", tag);
-    [center removePendingNotificationRequestWithIdentifiers: @[tag]];
+    [center removePendingNotificationRequestsWithIdentifiers: @[tag]];
+}
+
+- (void) cancelAllPendingNotificationRequests; {
+    NSLog(@"Cancelling all pending notifications"); 
+    [center removeAllPendingNotificationRequests];
 }
 
 

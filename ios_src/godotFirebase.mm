@@ -36,7 +36,13 @@ void GodotFirebase::initWithJson(const String &json, const int script_id) {
     [analytics init];
     
     notifications = [GodotFirebaseNotifications alloc];
-    [notifications init];
+    [notifications initWithCallback: ^(){
+        NSLog(@"FireBase initialized. Calling _on_firebase_initialized on GDScript.");
+    	Object *obj = ObjectDB::get_instance(script_id);
+        Array params = Array();
+        params.push_back(String("FireBase successfully initialized."));
+    	obj->call_deferred(String("_on_firebase_initialized"), params);
+    }];
     
 }
 
@@ -75,21 +81,35 @@ void GodotFirebase::send_events(const String &event_name, const Dictionary& key_
 
 // Notifications ++
 
-NSString *ns_string_from_gd_string(String string) {
-    return [NSString stringWithCString: string.utf8().get_data() encoding:NSUTF8StringEncoding];
+NSString *ns_string_from_gd_string(const String &string) {
+    NSString * rv = [NSString stringWithCString: string.utf8().get_data() encoding: NSUTF8StringEncoding];
+    NSLog(@"Converted GDString into %@", rv);
+    return rv;
+}
+
+String GodotFirebase::getToken(){
+    return String([[notifications getToken] UTF8String]);
 }
 
 void GodotFirebase::notifyInSecsWithTag(const String &message, const int seconds, const String &tag) {
     NSString *title = ns_string_from_gd_string(String(ProjectSettings::get_singleton()->get_setting(String("application/config/name"))));
-    [notifications notifyInSecsWithMessage: ns_string_from_gd_string(message)
+    NSString *ns_message = ns_string_from_gd_string(message);
+    NSString *ns_tag = ns_string_from_gd_string(tag);
+    NSLog(@"godotFirebase.mm::notifyInSecsWithTag: %@ %@ %@", title, ns_message, ns_tag);
+    [notifications notifyInSecondsWithMessage: ns_message
                                  withTitle: title
                                withSeconds: seconds
-                                   withTag: ns_string_from_gd_string(tag)];
+                                   withTag: ns_tag];
 }
 
 void GodotFirebase::cancelNotificationWithTag(const String &tag) {
     [notifications cancelNotificationWithTag: ns_string_from_gd_string(tag)];
 }
+
+void GodotFirebase::cancelAllPendingNotificationRequests() {
+    [notifications cancelAllPendingNotificationRequests];
+}
+
 
 // Notifications --
 
@@ -106,6 +126,7 @@ void GodotFirebase::_bind_methods() {
     // Notifications
     CLASS_DB::bind_method("notify_in_secs_with_tag", &GodotFirebase::notifyInSecsWithTag);
     CLASS_DB::bind_method("cancel_notification_with_tag", &GodotFirebase::cancelNotificationWithTag);
+    CLASS_DB::bind_method("cancel_all_pending_notification_requests", &GodotFirebase::cancelAllPendingNotificationRequests);
     /*
      Admob related functions to be implemented:
      

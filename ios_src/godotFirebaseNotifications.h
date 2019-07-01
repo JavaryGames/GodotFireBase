@@ -4,12 +4,14 @@
 @interface GodotFirebaseNotifications : NSObject {
 }
 
-- (void) init;
+- (void) initWithCallback: (void (^)()) callback;
+- (NSString *) getToken;
 - (void) notifyInSecondsWithMessage: (NSString *) message
                           withTitle: (NSString *) title
                         withSeconds: (int) seconds
                             withTag: (NSString *)  tag;
 - (void) cancelNotificationWithTag: (NSString *) tag;
+- (void) cancelAllPendingNotificationRequests;
 
 @property NSString *token;
 

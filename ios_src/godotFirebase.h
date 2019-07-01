@@ -66,8 +66,10 @@ public:
 
     // todo: other NotifyIn* variants
     
+    String getToken();
     void notifyInSecsWithTag(const String &message, const int seconds, const String &tag);
     void cancelNotificationWithTag(const String &tag);
+    void cancelAllPendingNotificationRequests();
 
     GodotFirebase();
     ~GodotFirebase();
