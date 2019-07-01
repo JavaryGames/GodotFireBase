@@ -90,9 +90,10 @@ public class FireBase extends Godot.SingletonBase {
 			//Auth--
 
 			//Notification++
-			"notifyInMins", "notifyInSecs", "notifyInMinsWithTag", "notifyInSecsWithTag",
 			"subscribeToTopic", "getToken", "notifyOnComplete", "repeatNotification",
-			"cancel_notification",
+			"notify_in_secs_with_tag",
+			"cancel_notification_with_tag",
+			//"cancel_all_pending_notification_requests",
 			//Notification--
 
 			//Invites++
@@ -681,7 +682,7 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
-	public void notifyInSecsWithTag (final String message, final int secs, final String tag) {
+	public void notify_in_secs_with_tag (final String message, final int secs, final String tag) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				Notification.getInstance(activity).notifyInSecsWithTag(message, secs, tag);
@@ -697,7 +698,7 @@ public class FireBase extends Godot.SingletonBase {
 		});
 	}
 
-	public void cancel_notification(final String tag) {
+	public void cancel_notification_with_tag(final String tag) {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				Notification.getInstance(activity).cancel_notification(tag);
