@@ -6,7 +6,7 @@
 - (void) init:(NSDictionary*)config_: (int)script_id_; {
     NSLog(@"Calling init from interstitial");
     
-    ad_id = config_[@"Ads"][@"InterstitialAdId"];
+    ad_id = [[NSString alloc] initWithString: config_[@"Ads"][@"InterstitialAdId"]];
     script_id = script_id_;
 }
 

@@ -11,6 +11,7 @@
 
 //GADInterstitial *interstitial = NULL;
 NSDictionary *config = NULL;
+int godot_script_id;
 
 GodotFirebase::GodotFirebase() {
 }
@@ -22,8 +23,10 @@ void GodotFirebase::initWithJson(const String &json, const int script_id) {
     NSLog(@"Initializing firebase from objective-C...");
     NSLog(@"json = %@", [NSString stringWithCString:json.utf8().get_data() encoding: NSUTF8StringEncoding]);
     
+    godot_script_id = script_id;
+
     [FIRApp configure];
-    
+
     config = [NSJSONSerialization JSONObjectWithData:[[NSString stringWithCString:json.utf8().get_data() encoding: NSUTF8StringEncoding]  dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
                                                       
     interstitialAd = [GodotFirebaseInterstitialAd alloc];
@@ -110,6 +113,19 @@ void GodotFirebase::cancelAllPendingNotificationRequests() {
     [notifications cancelAllPendingNotificationRequests];
 }
 
+void GodotFirebase::setRemoteDefaults(const String &jsonData) {
+    NSLog(@"godotFirebase.mm::setRemoteDefaults: Not yet implemented");
+
+    // Tell godot that remote config was set
+    Object *obj = ObjectDB::get_instance(godot_script_id);
+    Array params = Array();
+    params.push_back(String("FireBase RemoteConfig defaults set."));
+    obj->call_deferred(String("_on_firebase_remoteconfig_defaults_set"), params);
+}
+
+void GodotFirebase::crash_set_user_id(const String &id) {
+    NSLog(@"godotFirebase.mm::crash_set_user_id: Not yet implemented");
+}
 
 // Notifications --
 
@@ -127,6 +143,11 @@ void GodotFirebase::_bind_methods() {
     CLASS_DB::bind_method("notify_in_secs_with_tag", &GodotFirebase::notifyInSecsWithTag);
     CLASS_DB::bind_method("cancel_notification_with_tag", &GodotFirebase::cancelNotificationWithTag);
     CLASS_DB::bind_method("cancel_all_pending_notification_requests", &GodotFirebase::cancelAllPendingNotificationRequests);
+    CLASS_DB::bind_method("getToken", &GodotFirebase::getToken);
+    //
+    CLASS_DB::bind_method("crash_set_user_id", &GodotFirebase::crash_set_user_id);
+    // Remote config
+    CLASS_DB::bind_method("setRemoteDefaults", &GodotFirebase::setRemoteDefaults);
     /*
      Admob related functions to be implemented:
      

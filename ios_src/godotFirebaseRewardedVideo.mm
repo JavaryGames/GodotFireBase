@@ -8,13 +8,13 @@
 - (void) init:(NSDictionary*)config_: (int)script_id_; {
     NSLog(@"Calling init from rewarded video");
     
-    ad_id = config_[@"Ads"][@"RewardedVideoAdId"];
+    ad_id = [[NSString alloc] initWithString: config_[@"Ads"][@"RewardedVideoAdId"]];
     script_id = script_id_;
 }
 
 - (void) load; {
     NSLog(@"Calling load from rewarded video");
-    
+
     [[GADRewardBasedVideoAd sharedInstance] loadRequest: [GADRequest request] withAdUnitID:ad_id];
     
     [GADRewardBasedVideoAd sharedInstance].delegate = self;

@@ -71,6 +71,9 @@ public:
     void cancelNotificationWithTag(const String &tag);
     void cancelAllPendingNotificationRequests();
 
+    void setRemoteDefaults(const String &jsonData);
+    void crash_set_user_id(const String &id);
+
     GodotFirebase();
     ~GodotFirebase();
 };
