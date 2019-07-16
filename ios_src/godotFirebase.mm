@@ -82,7 +82,7 @@ void GodotFirebase::send_events(const String &event_name, const Dictionary& key_
     [analytics send_events:[NSString stringWithCString:event_name.utf8().get_data() encoding: NSUTF8StringEncoding]: key_values];
 }
 
-// Notifications ++
+//Notifications++
 
 NSString *ns_string_from_gd_string(const String &string) {
     NSString * rv = [NSString stringWithCString: string.utf8().get_data() encoding: NSUTF8StringEncoding];
@@ -123,11 +123,43 @@ void GodotFirebase::setRemoteDefaults(const String &jsonData) {
     obj->call_deferred(String("_on_firebase_remoteconfig_defaults_set"), params);
 }
 
-void GodotFirebase::crash_set_user_id(const String &id) {
-    NSLog(@"godotFirebase.mm::crash_set_user_id: Not yet implemented");
+//Notifications--
+
+//Crashlytics++
+
+void GodotFirebase::crash_set_string(const String &key, const String &value) {
+    NSLog(@"godotFirebase.mm::crash_set_string: Not yet implemented");//<--
 }
 
-// Notifications --
+void GodotFirebase::crash_set_bool(const String &key, const bool value) {
+    NSLog(@"godotFirebase.mm::crash_set_bool: Not yet implemented");//<--
+}
+
+void GodotFirebase::crash_set_real(const String &key, const float value) {
+    NSLog(@"godotFirebase.mm::crash_set_real: Not yet implemented");//<--
+}
+
+void GodotFirebase::crash_set_int(const String &key, const int value) {
+    NSLog(@"godotFirebase.mm::crash_set_int: Not yet implemented");//<--
+}
+
+void GodotFirebase::crash_set_user_id(const String &id) {
+    NSLog(@"godotFirebase.mm::crash_set_user_id: Not yet implemented");//<--
+}
+
+void GodotFirebase::crash_log_exception(const String &message) {
+    NSLog(@"godotFirebase.mm::crash_log_exception: Not yet implemented");//<--
+}
+
+void GodotFirebase::crash_log_error(const String &message) {
+    NSLog(@"godotFirebase.mm::crash_log_error: Not yet implemented");//<--
+}
+
+void GodotFirebase::crash_log_warning(const String &message) {
+    NSLog(@"godotFirebase.mm::crash_log_warning: Not yet implemented");//<--
+}
+
+//Crashlytics--
 
 void GodotFirebase::_bind_methods() {
     CLASS_DB::bind_method("initWithJson", &GodotFirebase::initWithJson);
@@ -144,8 +176,16 @@ void GodotFirebase::_bind_methods() {
     CLASS_DB::bind_method("cancel_notification_with_tag", &GodotFirebase::cancelNotificationWithTag);
     CLASS_DB::bind_method("cancel_all_pending_notification_requests", &GodotFirebase::cancelAllPendingNotificationRequests);
     CLASS_DB::bind_method("getToken", &GodotFirebase::getToken);
-    //
+    // Crashlytics
+    CLASS_DB::bind_method("crash_set_string", &GodotFirebase::crash_set_string);
+    CLASS_DB::bind_method("crash_set_bool", &GodotFirebase::crash_set_bool);
+    CLASS_DB::bind_method("crash_set_real", &GodotFirebase::crash_set_real);
+    CLASS_DB::bind_method("crash_set_int", &GodotFirebase::crash_set_real);
     CLASS_DB::bind_method("crash_set_user_id", &GodotFirebase::crash_set_user_id);
+    CLASS_DB::bind_method("crash_log_exception", &GodotFirebase::crash_log_exception);
+    CLASS_DB::bind_method("crash_log_error", &GodotFirebase::crash_log_error);
+    CLASS_DB::bind_method("crash_log_warning", &GodotFirebase::crash_log_warning);
+
     // Remote config
     CLASS_DB::bind_method("setRemoteDefaults", &GodotFirebase::setRemoteDefaults);
     /*

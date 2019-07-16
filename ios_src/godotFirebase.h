@@ -72,7 +72,15 @@ public:
     void cancelAllPendingNotificationRequests();
 
     void setRemoteDefaults(const String &jsonData);
+
+    void crash_set_string(const String &key, const String &value);
+    void crash_set_bool(const String &key, const bool value);
+    void crash_set_real(const String &key, const float value);
+    void crash_set_int(const String &key, const int value);
     void crash_set_user_id(const String &id);
+    void crash_log_exception(const String &message);
+    void crash_log_error(const String &message);
+    void crash_log_warning(const String &message);
 
     GodotFirebase();
     ~GodotFirebase();
