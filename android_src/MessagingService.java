@@ -64,7 +64,7 @@ public class MessagingService extends FirebaseMessagingService {
 			Utils.d(
 			"Notification Body: " + remoteMessage.getNotification().getBody());
 
-			sendNotification(remoteMessage.getNotification().getBody(), this);
+			sendNotification(remoteMessage.getNotification().getBody(), -2, this);
 		}
 	}
 
@@ -87,7 +87,7 @@ public class MessagingService extends FirebaseMessagingService {
 
 	public static void sendNotification(Bundle bundle, Context context) {
         if (bundle.getString("image_uri") == null) {
-            sendNotification(bundle.getString("message"), context);
+            sendNotification(bundle.getString("message"), -1, context);
         }
 
 		Intent intent = new Intent(context, org.godotengine.godot.Godot.class);
@@ -100,7 +100,7 @@ public class MessagingService extends FirebaseMessagingService {
 		RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         Bitmap large_icon;
-        if (bundle.get("larget_icon") != null) {
+        if (bundle.get("large_icon") != null) {
 			large_icon = Utils.getBitmapFromAsset(context, bundle.getString("large_icon"));
         } else {
             large_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
@@ -122,10 +122,12 @@ public class MessagingService extends FirebaseMessagingService {
 		notificationManager.notify(7002, nBuilder.build());
 	}
 
-	public static void sendNotification(String messageBody, Context context) {
+	public static void sendNotification(String messageBody, int seconds, Context context) {
 		Intent intent = new Intent(context, org.godotengine.godot.Godot.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.putExtra("notification_seconds", seconds);
 
+		// TODO append seconds to the intent
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 		context, Utils.FIREBASE_NOTIFICATION_REQUEST, intent, PendingIntent.FLAG_ONE_SHOT);
 

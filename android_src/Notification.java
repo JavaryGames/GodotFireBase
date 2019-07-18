@@ -173,7 +173,7 @@ public class Notification {
             return;
         }
 
-        dispatch_single_job(get_bundle(data), seconds);
+        dispatch_notification_job(get_bundle(data), seconds);
 	}
 
 	public void notifyInSecsWithTag(final String message, final int seconds, final String tag) {
@@ -183,7 +183,7 @@ public class Notification {
 		bundle.putString("message", message);
 		bundle.putString("type", "text");
 
-		dispatch_single_job(bundle, seconds);
+		dispatch_notification_job(bundle, seconds);
 	}
 
 	public void notifyInSecs(final String message, final int seconds) {
@@ -200,9 +200,12 @@ public class Notification {
 		notifyInSecsWithTag(message, seconds, tag);
 	}
 
-    private void dispatch_single_job(Bundle bundle, int seconds) {
+    private void dispatch_notification_job(Bundle bundle, int seconds) {
 		Utils.d(
         "Setting new Notification: " + bundle.toString() + ", Seconds: " + String.valueOf(seconds));
+
+		// Add seconds to the bundle, so we can add it to the intent at click of the notification
+		bundle.putInt("notification_seconds", seconds);
 
 		Job myJob = dispatcher.newJobBuilder()
 		.setService(NotifyInTime.class)	// the JobService that will be called

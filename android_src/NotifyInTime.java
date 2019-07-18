@@ -34,12 +34,11 @@ public class NotifyInTime extends JobService {
 		Utils.d("Job Started.");
 
 		Bundle bundle = job.getExtras();
-		Utils.d("Message: " + bundle.getString("message"));
 
         if (bundle.getString("type").equals("image")) {
     		MessagingService.sendNotification(bundle, this);
         } else {
-    		MessagingService.sendNotification(bundle.getString("message"), this);
+    		MessagingService.sendNotification(bundle.getString("message"), bundle.getInt("notification_seconds"), this);
         }
 
 		return false; // Answers the question: "Is there still work going on?"

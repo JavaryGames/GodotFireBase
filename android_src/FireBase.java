@@ -149,6 +149,16 @@ public class FireBase extends Godot.SingletonBase {
 		if (config.optBoolean("Analytics", true)) {
 			Utils.d("Initializing Firebase Analytics.");
 			Analytics.getInstance(activity).init(mFirebaseApp);
+
+			int seconds = activity.getIntent().getIntExtra("notification_seconds", Integer.MIN_VALUE);
+			if (seconds > 0) {
+				// Submit the notification seconds to analytics
+				Dictionary event_data = new Dictionary();
+				event_data.put("notification_seconds", seconds);
+				send_events("timed_notification_click", event_data);
+				Utils.d("Firebase: Sent timed_notification_click event: " +
+						Integer.toString(seconds));
+			}
 		}
 		//Analytics--
 
