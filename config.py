@@ -255,5 +255,5 @@ crashlytics {
         env.android_add_default_config("applicationId '"+ p_app_id +"'")
 
     elif env["platform"] == "iphone":
-        env.Append(FRAMEWORKPATH=['modules/GodotFirebase/ios_src/lib'])
+        env.Append(FRAMEWORKPATH=['ios_src/lib'])
         env.Append(LINKFLAGS=['-ObjC', '-framework','AdSupport', '-framework', 'UserNotifications','-framework','CoreTelephony', '-framework','EventKit', '-framework','EventKitUI', '-framework','MessageUI', '-framework','StoreKit', '-framework','SafariServices', '-framework','CoreBluetooth', '-framework','AssetsLibrary', '-framework','CoreData', '-framework','CoreLocation', '-framework','CoreText', '-framework','ImageIO', '-framework', 'GLKit', '-framework','CoreVideo', '-framework', 'CFNetwork', '-framework', 'MobileCoreServices', '-framework', 'FirebaseAnalytics', '-framework', 'FIRAnalyticsConnector', '-framework', 'FirebaseCoreDiagnostics', '-framework', 'FirebaseCore', '-framework', 'FirebaseInstanceID', '-framework', 'GoogleAppMeasurement', '-framework', 'GoogleUtilities', '-framework', 'nanopb', '-framework', 'GoogleMobileAds'])
