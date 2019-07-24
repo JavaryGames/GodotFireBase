@@ -236,7 +236,8 @@ def configure(env):
 crashlytics {
     enableNdk true
     manifestPath 'AndroidManifest.xml'
-    androidNdkOut '../../../'
+    androidNdkOut 'libs/debug'
+    androidNdkLibsOut 'libs/release'
 }
             """)
 
