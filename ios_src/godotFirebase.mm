@@ -138,15 +138,22 @@ void GodotFirebase::crash_set_string(const String &key, const String &value) {
 }
 
 void GodotFirebase::crash_set_bool(const String &key, const bool value) {
-    NSLog(@"godotFirebase.mm::crash_set_bool: Not yet implemented");//<--
+    NSLog(@"godotFirebase.mm::crash_set_bool: Testing");//<--
+    NSString* ns_key = [NSString stringWithCString: key.utf8().get_data()];
+    BOOL ns_value = value ? YES : NO;
+    [[Crashlytics sharedInstance] setBoolValue: ns_value forKey: ns_key];
 }
 
 void GodotFirebase::crash_set_real(const String &key, const float value) {
-    NSLog(@"godotFirebase.mm::crash_set_real: Not yet implemented");//<--
+    NSLog(@"godotFirebase.mm::crash_set_real: Testing");//<--
+    NSString* ns_key = [NSString stringWithCString: key.utf8().get_data()];
+    [[Crashlytics sharedInstance] setFloatValue: value forKey: ns_key];
 }
 
 void GodotFirebase::crash_set_int(const String &key, const int value) {
-    NSLog(@"godotFirebase.mm::crash_set_int: Not yet implemented");//<--
+    NSLog(@"godotFirebase.mm::crash_set_int: Testing");//<--
+    NSString* ns_key = [NSString stringWithCString: key.utf8().get_data()];
+    [[Crashlytics sharedInstance] setIntValue: value forKey: ns_key];
 }
 
 void GodotFirebase::crash_set_user_id(const String &id) {
