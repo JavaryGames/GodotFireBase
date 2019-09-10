@@ -52,13 +52,11 @@ void GodotFirebase::initWithJson(const String &json, const int script_id) {
 void GodotFirebase::load_interstitial() {
     NSLog(@"load_insterstitial from ObjC");
     [interstitialAd load];
-    
 }
 
 void GodotFirebase::show_interstitial_ad() {
     NSLog(@"show_instertitial_ad from ObjC");
     [interstitialAd show];
-    
 }
 
 void GodotFirebase::load_rewarded_video() {
@@ -127,8 +125,16 @@ void GodotFirebase::setRemoteDefaults(const String &jsonData) {
 
 //Crashlytics++
 
+void GodotFirebase::crash() {
+    NSLog(@"godotFirebase.mm::crash: Testing");//<--
+    [[Crashlytics sharedInstance] crash];
+}
+
 void GodotFirebase::crash_set_string(const String &key, const String &value) {
-    NSLog(@"godotFirebase.mm::crash_set_string: Not yet implemented");//<--
+    NSLog(@"godotFirebase.mm::crash_set_string: Testing");//<--
+    NSString* ns_key = [NSString stringWithCString: key.utf8().get_data()];
+    NSString* ns_value = [NSString stringWithCString: value.utf8().get_data()];
+    [[Crashlytics sharedInstance] setObjectValue: ns_value forKey: ns_key];
 }
 
 void GodotFirebase::crash_set_bool(const String &key, const bool value) {
@@ -177,6 +183,7 @@ void GodotFirebase::_bind_methods() {
     CLASS_DB::bind_method("cancel_all_pending_notification_requests", &GodotFirebase::cancelAllPendingNotificationRequests);
     CLASS_DB::bind_method("getToken", &GodotFirebase::getToken);
     // Crashlytics
+    CLASS_DB::bind_method("crash", &GodotFirebase::crash);
     CLASS_DB::bind_method("crash_set_string", &GodotFirebase::crash_set_string);
     CLASS_DB::bind_method("crash_set_bool", &GodotFirebase::crash_set_bool);
     CLASS_DB::bind_method("crash_set_real", &GodotFirebase::crash_set_real);

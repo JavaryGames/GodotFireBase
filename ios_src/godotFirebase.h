@@ -73,6 +73,7 @@ public:
 
     void setRemoteDefaults(const String &jsonData);
 
+    void crash();
     void crash_set_string(const String &key, const String &value);
     void crash_set_bool(const String &key, const bool value);
     void crash_set_real(const String &key, const float value);
