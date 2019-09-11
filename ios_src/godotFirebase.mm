@@ -111,17 +111,33 @@ void GodotFirebase::cancelAllPendingNotificationRequests() {
     [notifications cancelAllPendingNotificationRequests];
 }
 
+//Notifications--
+
+//RemoteConfig++
+
+// public String getRemoteValue (final String key) {
+void GodotFirebase::getRemoteValue(const String &key) {
+    NSLog(@"godotFirebase.mm::getRemoteValue: Not yet implemented");
+
+}
+
+// public void setRemoteDefaultsFile (final String path) {
+void GodotFirebase::setRemoteDefaultsFile(const String &path) {
+    NSLog(@"godotFirebase.mm::setRemoteDefaultsFile: Not yet implemented");
+
+}
+
 void GodotFirebase::setRemoteDefaults(const String &jsonData) {
     NSLog(@"godotFirebase.mm::setRemoteDefaults: Not yet implemented");
 
     // Tell godot that remote config was set
-    Object *obj = ObjectDB::get_instance(godot_script_id);
-    Array params = Array();
-    params.push_back(String("FireBase RemoteConfig defaults set."));
-    obj->call_deferred(String("_on_firebase_remoteconfig_defaults_set"), params);
+    // Object *obj = ObjectDB::get_instance(godot_script_id);
+    // Array params = Array();
+    // params.push_back(String("FireBase RemoteConfig defaults set."));
+    // obj->call_deferred(String("_on_firebase_remoteconfig_defaults_set"), params);
 }
 
-//Notifications--
+//RemoteConfig--
 
 //Crashlytics++
 
@@ -199,8 +215,9 @@ void GodotFirebase::_bind_methods() {
     CLASS_DB::bind_method("crash_log_exception", &GodotFirebase::crash_log_exception);
     CLASS_DB::bind_method("crash_log_error", &GodotFirebase::crash_log_error);
     CLASS_DB::bind_method("crash_log_warning", &GodotFirebase::crash_log_warning);
-
     // Remote config
+    CLASS_DB::bind_method("getRemoteValue", &GodotFirebase::getRemoteValue);
+    CLASS_DB::bind_method("setRemoteDefaultsFile", &GodotFirebase::setRemoteDefaultsFile);
     CLASS_DB::bind_method("setRemoteDefaults", &GodotFirebase::setRemoteDefaults);
     /*
      Admob related functions to be implemented:

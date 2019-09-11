@@ -71,6 +71,8 @@ public:
     void cancelNotificationWithTag(const String &tag);
     void cancelAllPendingNotificationRequests();
 
+    void getRemoteValue(const String &key);
+    void setRemoteDefaultsFile(const String &path);
     void setRemoteDefaults(const String &jsonData);
 
     void crash();
