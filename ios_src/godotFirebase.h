@@ -21,7 +21,7 @@ typedef GodotFirebaseAnalytics *analyticsPtr;
 typedef GodotFirebaseNotifications *notificationsPtr;
 
 @class GodotFirebaseCrashlytics;
-typedef GodotFirebaseCrashlytics *notificationsPtr;
+typedef GodotFirebaseCrashlytics *crashlyticsPtr;
 
 @class GodotFirebaseRemoteConfig;
 typedef GodotFirebaseRemoteConfig *remoteConfigPtr;

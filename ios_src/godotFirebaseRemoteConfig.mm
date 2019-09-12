@@ -9,3 +9,5 @@
 - (void) init:(NSDictionary*)config_: (int)script_id_; {
     NSLog(@"Calling init from remote config");
 }
+
+@end

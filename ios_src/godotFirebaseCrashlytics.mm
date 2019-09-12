@@ -9,27 +9,30 @@
 NSNumber *scriptId;
 NSString *userId;
 
+
+- (bool) isInitialized; {
+    return scriptId != nil;
+}
+
 - (void) init:(NSDictionary*)config_: (int)script_id_; {
     NSLog(@"Calling init from crashlytics");
-    // final Fabric fabric = new Fabric.Builder(activity)
-    //     .kits(new Crashlytics(), new CrashlyticsNdk())
-    //     .build();
-    // Fabric.with(fabric);
-    if (userId != null) {
-        // Crashlytics.setUserIdentifier(userId);
+    [Fabric with:@[[Crashlytics class]]];
+
+    if (userId != nil) {
+        [[Crashlytics sharedInstance] setUserIdentifier: userId];
     }
-    scriptId = [NSNumber numberWithInt:script_id_]
+    scriptId = [NSNumber numberWithInt:script_id_];
 }
 
 - (void) setUserId:(NSString *) id_;{
-    if (!isInitialized()){
+    if (![self isInitialized]){
         userId = id_;
     }else{
-        // Crashlytics.setUserIdentifier(userId);
+        [[Crashlytics sharedInstance] setUserIdentifier: userId];
     }
 }
 
 
-- (bool) isInitialized {
-    return scriptId != nil;
-}
+
+
+@end
