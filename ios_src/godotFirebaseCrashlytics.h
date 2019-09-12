@@ -5,7 +5,7 @@
 @interface GodotFirebaseCrashlytics : NSObject {
 }
 
-- (void) init;
+- (void) init:(NSDictionary*)config_: (int)script_id_;
 - (void) setUserId:(NSString *) id;
 // Method headers here
 

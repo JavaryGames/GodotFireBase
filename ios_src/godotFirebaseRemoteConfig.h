@@ -4,9 +4,15 @@
 @interface GodotFirebaseRemoteConfig : NSObject {
 }
 
-- (void) init;
-// - (void) init:(NSDictionary*)config_: (int)script_id_;
-// - (void) load;
-// - (void) show;
+- (void) init:(NSDictionary*)config_: (int)script_id_;
+
+- (NSString *) getRemoteValue:(NSString *)key;
+- (void) setRemoteDefaultsFile:(NSString *)path;
+- (void) setRemoteDefaults:(NSString *)jsonData;
+
+// Private methods
+
+- (bool) isInitialized;
+- (void) fetchRemoteConfigs;
 
 @end

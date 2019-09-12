@@ -128,7 +128,7 @@ String GodotFirebase::getRemoteValue(const String &key) {
         return "NULL";
     }
     NSString* ns_key = [NSString stringWithCString: key.utf8().get_data()];
-    NSString* ns_response = [[FIRRemoteConfig remoteConfig] configValueForKey:ns_key].stringValue;
+    NSString* ns_response = [remoteConfig getRemoteValue];//[[FIRRemoteConfig remoteConfig] configValueForKey:ns_key].stringValue;
     return [ns_response UTF8String];
 }
 
