@@ -28,7 +28,13 @@ void GodotFirebase::initWithJson(const String &json, const int script_id) {
     [FIRApp configure];
 
     config = [NSJSONSerialization JSONObjectWithData:[[NSString stringWithCString:json.utf8().get_data() encoding: NSUTF8StringEncoding]  dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
-                                                      
+
+    crashlytics = [GodotFirebaseCrashlytics alloc];
+    [crashlytics init: config: script_id];
+
+    remoteConfig = [GodotFirebaseRemoteConfig alloc];
+    [remoteConfig init: config: script_id];
+
     interstitialAd = [GodotFirebaseInterstitialAd alloc];
     [interstitialAd init: config: script_id];
     
@@ -84,7 +90,7 @@ void GodotFirebase::send_events(const String &event_name, const Dictionary& key_
 
 NSString *ns_string_from_gd_string(const String &string) {
     NSString * rv = [NSString stringWithCString: string.utf8().get_data() encoding: NSUTF8StringEncoding];
-    NSLog(@"Converted GDString into %@", rv);
+    // NSLog(@"Converted GDString into %@", rv);
     return rv;
 }
 
@@ -115,20 +121,37 @@ void GodotFirebase::cancelAllPendingNotificationRequests() {
 
 //RemoteConfig++
 
-// public String getRemoteValue (final String key) {
-void GodotFirebase::getRemoteValue(const String &key) {
-    NSLog(@"godotFirebase.mm::getRemoteValue: Not yet implemented");
-
+String GodotFirebase::getRemoteValue(const String &key) {
+    NSLog(@"godotFirebase.mm::getRemoteValue: Implementing");
+    if (key.length() <= 0) {
+        NSLog(@"getting remote config: key not provided, returning null");
+        return "NULL";
+    }
+    NSString* ns_key = [NSString stringWithCString: key.utf8().get_data()];
+    NSString* ns_response = [[FIRRemoteConfig remoteConfig] configValueForKey:ns_key].stringValue;
+    return [ns_response UTF8String];
 }
 
-// public void setRemoteDefaultsFile (final String path) {
 void GodotFirebase::setRemoteDefaultsFile(const String &path) {
-    NSLog(@"godotFirebase.mm::setRemoteDefaultsFile: Not yet implemented");
-
+    NSLog(@"godotFirebase.mm::setRemoteDefaultsFile: Implementing");
+    if (path.length() <= 0) {
+        NSLog(@"File not provided for remote config");
+        return;
+    }
+    NSString* ns_path = [NSString stringWithCString: path.utf8().get_data()];
+    // Read given file
+    //setRemoteDefaults(const String &jsonData)
 }
 
 void GodotFirebase::setRemoteDefaults(const String &jsonData) {
-    NSLog(@"godotFirebase.mm::setRemoteDefaults: Not yet implemented");
+    NSLog(@"godotFirebase.mm::setRemoteDefaults: Implementing");
+    if (jsonData.length() <= 0) {
+        NSLog(@"No defaults were provided.");
+        return;
+    }
+    NSString* ns_json = [NSString stringWithCString: jsonData.utf8().get_data()];
+
+    // - (void)setDefaults:(nullable NSDictionary<NSString *, NSObject *> *)defaults;
 
     // Tell godot that remote config was set
     // Object *obj = ObjectDB::get_instance(godot_script_id);

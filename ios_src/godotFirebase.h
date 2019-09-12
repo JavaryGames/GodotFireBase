@@ -20,12 +20,20 @@ typedef GodotFirebaseAnalytics *analyticsPtr;
 @class GodotFirebaseNotifications;
 typedef GodotFirebaseNotifications *notificationsPtr;
 
+@class GodotFirebaseCrashlytics;
+typedef GodotFirebaseCrashlytics *notificationsPtr;
+
+@class GodotFirebaseRemoteConfig;
+typedef GodotFirebaseRemoteConfig *remoteConfigPtr;
+
 #else
 
 typedef void *interstitialAdPtr;
 typedef void *rewardedVideoPtr;
 typedef void *analyticsPtr;
 typedef void *notificationsPtr;
+typedef void *crashlyticsPtr;
+typedef void *remoteConfigPtr;
 
 #endif
 
@@ -42,9 +50,10 @@ class GodotFirebase : public Reference {
     rewardedVideoPtr rewardedVideo;
     analyticsPtr analytics;
     notificationsPtr notifications;
+    crashlyticsPtr crashlytics;
+    remoteConfigPtr remoteConfig;
     
 protected:
-    // void do_ios_rate(const String &app_id); TODO remove
     static void _bind_methods();
     
 public:
@@ -71,7 +80,7 @@ public:
     void cancelNotificationWithTag(const String &tag);
     void cancelAllPendingNotificationRequests();
 
-    void getRemoteValue(const String &key);
+    String getRemoteValue(const String &key);
     void setRemoteDefaultsFile(const String &path);
     void setRemoteDefaults(const String &jsonData);
 
