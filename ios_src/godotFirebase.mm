@@ -196,19 +196,27 @@ void GodotFirebase::crash_set_int(const String &key, const int value) {
 }
 
 void GodotFirebase::crash_set_user_id(const String &id) {
-    NSLog(@"godotFirebase.mm::crash_set_user_id: Not yet implemented");//<--
+    NSLog(@"godotFirebase.mm::crash_set_user_id: Testing");//<--
+    NSString* ns_id = [NSString stringWithCString: id.utf8().get_data()];
+    [[Crashlytics sharedInstance] setUserIdentifier: ns_id];
 }
 
 void GodotFirebase::crash_log_exception(const String &message) {
-    NSLog(@"godotFirebase.mm::crash_log_exception: Not yet implemented");//<--
+    NSLog(@"godotFirebase.mm::crash_log_exception: Testing");//<--
+    NSString* ns_message = [NSString stringWithCString: message.utf8().get_data()];
+    [[Crashlytics sharedInstance] logEvent: ns_message];
 }
 
 void GodotFirebase::crash_log_error(const String &message) {
-    NSLog(@"godotFirebase.mm::crash_log_error: Not yet implemented");//<--
+    NSLog(@"godotFirebase.mm::crash_log_error: Testing");//<--
+    NSString* ns_message = [NSString stringWithCString: message.utf8().get_data()];
+    [[Crashlytics sharedInstance] logEvent: ns_message];
 }
 
 void GodotFirebase::crash_log_warning(const String &message) {
-    NSLog(@"godotFirebase.mm::crash_log_warning: Not yet implemented");//<--
+    NSLog(@"godotFirebase.mm::crash_log_warning: Testing");//<--
+    NSString* ns_message = [NSString stringWithCString: message.utf8().get_data()];
+    [[Crashlytics sharedInstance] logEvent: ns_message];
 }
 
 //Crashlytics--
@@ -233,7 +241,7 @@ void GodotFirebase::_bind_methods() {
     CLASS_DB::bind_method("crash_set_string", &GodotFirebase::crash_set_string);
     CLASS_DB::bind_method("crash_set_bool", &GodotFirebase::crash_set_bool);
     CLASS_DB::bind_method("crash_set_real", &GodotFirebase::crash_set_real);
-    CLASS_DB::bind_method("crash_set_int", &GodotFirebase::crash_set_real);
+    CLASS_DB::bind_method("crash_set_int", &GodotFirebase::crash_set_int);
     CLASS_DB::bind_method("crash_set_user_id", &GodotFirebase::crash_set_user_id);
     CLASS_DB::bind_method("crash_log_exception", &GodotFirebase::crash_log_exception);
     CLASS_DB::bind_method("crash_log_error", &GodotFirebase::crash_log_error);
