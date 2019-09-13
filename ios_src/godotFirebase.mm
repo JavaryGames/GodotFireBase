@@ -154,57 +154,57 @@ void GodotFirebase::setRemoteDefaults(const String &jsonData) {
 
 void GodotFirebase::crash() {
     NSLog(@"godotFirebase.mm::crash: Testing");//<--
-    [[Crashlytics sharedInstance] crash];
+    [crashlytics crash];
 }
 
 void GodotFirebase::crash_set_string(const String &key, const String &value) {
     NSLog(@"godotFirebase.mm::crash_set_string: Testing");//<--
     NSString* ns_key = [NSString stringWithCString: key.utf8().get_data()];
     NSString* ns_value = [NSString stringWithCString: value.utf8().get_data()];
-    [[Crashlytics sharedInstance] setObjectValue: ns_value forKey: ns_key];
+    [crashlytics crashSetString: ns_value: ns_key];
 }
 
 void GodotFirebase::crash_set_bool(const String &key, const bool value) {
     NSLog(@"godotFirebase.mm::crash_set_bool: Testing");//<--
     NSString* ns_key = [NSString stringWithCString: key.utf8().get_data()];
     BOOL ns_value = value ? YES : NO;
-    [[Crashlytics sharedInstance] setBoolValue: ns_value forKey: ns_key];
+    [crashlytics crashSetBool: ns_value: ns_key];
 }
 
 void GodotFirebase::crash_set_real(const String &key, const float value) {
     NSLog(@"godotFirebase.mm::crash_set_real: Testing");//<--
     NSString* ns_key = [NSString stringWithCString: key.utf8().get_data()];
-    [[Crashlytics sharedInstance] setFloatValue: value forKey: ns_key];
+    [crashlytics crashSetReal: value: ns_key];
 }
 
 void GodotFirebase::crash_set_int(const String &key, const int value) {
     NSLog(@"godotFirebase.mm::crash_set_int: Testing");//<--
     NSString* ns_key = [NSString stringWithCString: key.utf8().get_data()];
-    [[Crashlytics sharedInstance] setIntValue: value forKey: ns_key];
+    [crashlytics crashSetInt: value: ns_key];
 }
 
 void GodotFirebase::crash_set_user_id(const String &id) {
     NSLog(@"godotFirebase.mm::crash_set_user_id: Testing");//<--
     NSString* ns_id = [NSString stringWithCString: id.utf8().get_data()];
-    [[Crashlytics sharedInstance] setUserIdentifier: ns_id];
+    [crashlytics setUserId: ns_id];
 }
 
 void GodotFirebase::crash_log_exception(const String &message) {
     NSLog(@"godotFirebase.mm::crash_log_exception: Testing");//<--
     NSString* ns_message = [NSString stringWithCString: message.utf8().get_data()];
-    [[Crashlytics sharedInstance] logEvent: ns_message];
+    [crashlytics crashLogException: ns_message];
 }
 
 void GodotFirebase::crash_log_error(const String &message) {
     NSLog(@"godotFirebase.mm::crash_log_error: Testing");//<--
     NSString* ns_message = [NSString stringWithCString: message.utf8().get_data()];
-    [[Crashlytics sharedInstance] logEvent: ns_message];
+    [crashlytics crashLogError: ns_message];
 }
 
 void GodotFirebase::crash_log_warning(const String &message) {
     NSLog(@"godotFirebase.mm::crash_log_warning: Testing");//<--
     NSString* ns_message = [NSString stringWithCString: message.utf8().get_data()];
-    [[Crashlytics sharedInstance] logEvent: ns_message];
+    [crashlytics crashLogWarning: ns_message];
 }
 
 //Crashlytics--
