@@ -42,7 +42,7 @@
                 obj->call_deferred(String("_on_firebase_remoteconfig_fetch_failed"), "FireBase RemoteConfig fetch failed.");
             }
         }else{
-            NSLog(@"RemoteConfig, Fetch Successed");
+            NSLog(@"RemoteConfig, Fetch Succeeded");
             [remoteConfig activateWithCompletionHandler: nil];
             if ([self isInitialized]){
                 Object *obj = ObjectDB::get_instance([scriptId intValue]);
