@@ -136,7 +136,7 @@ void GodotFirebase::setRemoteDefaultsFile(const String &path) {
         NSLog(@"File not provided for remote config");
         return;
     }
-    // [remoteConfig setRemoteDefaultsFile: [NSString stringWithCString: path.utf8().get_data()]];
+    [remoteConfig setRemoteDefaultsFile: [NSString stringWithCString: path.utf8().get_data()]];
 }
 
 void GodotFirebase::setRemoteDefaults(const String &jsonData) {
@@ -145,7 +145,7 @@ void GodotFirebase::setRemoteDefaults(const String &jsonData) {
         NSLog(@"No defaults were provided.");
         return;
     }
-    // [remoteConfig setRemoteDefaults: [NSString stringWithCString: jsonData.utf8().get_data()]];
+    [remoteConfig setRemoteDefaults: [NSString stringWithCString: jsonData.utf8().get_data()]];
 }
 
 //RemoteConfig--

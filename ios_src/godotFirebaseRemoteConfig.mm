@@ -35,7 +35,6 @@
 
     [remoteConfig fetchWithExpirationDuration: [cacheExpiration doubleValue]
     completionHandler:^(FIRRemoteConfigFetchStatus status, NSError *_Nullable error){
-        // NSLog(@"YAHOOO");
         if (error){
             NSLog(@"RemoteConfig, Fetch Failed");
             if ([self isInitialized]){
@@ -66,7 +65,7 @@
 
     NSLog(@"Loading Defaults from fileeeee:%@", path);
 
-    //<-- Load file content
+    // Load file content
     NSError *error;
     NSString *fileContents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
 
@@ -74,24 +73,29 @@
         NSLog(@"Error reading file: %@", error.localizedDescription);
         return;
 
-    // maybe for debugging...
     NSLog(@"contents: %@", fileContents);
+    //fileContents = data.replaceAll("\\s+", "");
 
-    // [self setRemoteDefaults: jsonData];
+    [self setRemoteDefaults: fileContents];
 }
 
 - (void) setRemoteDefaults:(NSString *)jsonData; {
     if (![self isInitialized]) { return; }
 
-    //<-- Convert from json to dict
-    //[self setDefaults: map];
+    // Convert from json to dict
+    NSDictionary *defaultsDict = nil;
+    defaultsDict = [NSJSONSerialization JSONObjectWithData:[jsonData dataUsingEncoding:NSUTF8StringEncoding] 
+        options:kNilOptions
+        error:nil
+    ];
+
+    [remoteConfig setDefaults: defaultsDict];
+
     if ([self isInitialized]){
         Object *obj = ObjectDB::get_instance([scriptId intValue]);
         obj->call_deferred(String("_on_firebase_remoteconfig_defaults_set"), "FireBase RemoteConfig defaults set.");
     }
 }
-
-
 
 
 // Private Methods
