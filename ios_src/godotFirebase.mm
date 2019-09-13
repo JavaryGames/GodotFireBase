@@ -32,6 +32,9 @@ void GodotFirebase::initWithJson(const String &json, const int script_id) {
     crashlytics = [GodotFirebaseCrashlytics alloc];
     [crashlytics init: config: script_id];
 
+    analytics = [GodotFirebaseAnalytics alloc];
+    [analytics init];
+
     remoteConfig = [GodotFirebaseRemoteConfig alloc];
     [remoteConfig init: config: script_id];
 
@@ -40,9 +43,6 @@ void GodotFirebase::initWithJson(const String &json, const int script_id) {
     
     rewardedVideo = [GodotFirebaseRewardedVideo alloc];
     [rewardedVideo init: config: script_id];
-    
-    analytics = [GodotFirebaseAnalytics alloc];
-    [analytics init];
     
     notifications = [GodotFirebaseNotifications alloc];
     [notifications initWithCallback: ^(){
@@ -127,9 +127,7 @@ String GodotFirebase::getRemoteValue(const String &key) {
         NSLog(@"getting remote config: key not provided, returning null");
         return "NULL";
     }
-    NSString* ns_key = [NSString stringWithCString: key.utf8().get_data()];
-    NSString* ns_response = [remoteConfig getRemoteValue];//[[FIRRemoteConfig remoteConfig] configValueForKey:ns_key].stringValue;
-    return [ns_response UTF8String];
+    return [[remoteConfig getRemoteValue: [NSString stringWithCString: key.utf8().get_data()]] UTF8String];
 }
 
 void GodotFirebase::setRemoteDefaultsFile(const String &path) {
@@ -138,9 +136,7 @@ void GodotFirebase::setRemoteDefaultsFile(const String &path) {
         NSLog(@"File not provided for remote config");
         return;
     }
-    NSString* ns_path = [NSString stringWithCString: path.utf8().get_data()];
-    // Read given file
-    //setRemoteDefaults(const String &jsonData)
+    // [remoteConfig setRemoteDefaultsFile: [NSString stringWithCString: path.utf8().get_data()]];
 }
 
 void GodotFirebase::setRemoteDefaults(const String &jsonData) {
@@ -149,15 +145,7 @@ void GodotFirebase::setRemoteDefaults(const String &jsonData) {
         NSLog(@"No defaults were provided.");
         return;
     }
-    NSString* ns_json = [NSString stringWithCString: jsonData.utf8().get_data()];
-
-    // - (void)setDefaults:(nullable NSDictionary<NSString *, NSObject *> *)defaults;
-
-    // Tell godot that remote config was set
-    // Object *obj = ObjectDB::get_instance(godot_script_id);
-    // Array params = Array();
-    // params.push_back(String("FireBase RemoteConfig defaults set."));
-    // obj->call_deferred(String("_on_firebase_remoteconfig_defaults_set"), params);
+    // [remoteConfig setRemoteDefaults: [NSString stringWithCString: jsonData.utf8().get_data()]];
 }
 
 //RemoteConfig--

@@ -4,10 +4,10 @@
 
 #import "Firebase.h"
 
-@implementation GodotFirebaseRemoteConfig
-
-NSNumber *scriptId;
-FIRRemoteConfig *remoteConfig;
+@implementation GodotFirebaseRemoteConfig{
+    NSNumber *scriptId;
+    FIRRemoteConfig *remoteConfig;
+}
 
 
 - (void) init:(NSDictionary*)config_: (int)script_id_; {
@@ -35,6 +35,7 @@ FIRRemoteConfig *remoteConfig;
 
     [remoteConfig fetchWithExpirationDuration: [cacheExpiration doubleValue]
     completionHandler:^(FIRRemoteConfigFetchStatus status, NSError *_Nullable error){
+        // NSLog(@"YAHOOO");
         if (error){
             NSLog(@"RemoteConfig, Fetch Failed");
             if ([self isInitialized]){
@@ -43,7 +44,7 @@ FIRRemoteConfig *remoteConfig;
             }
         }else{
             NSLog(@"RemoteConfig, Fetch Successed");
-            [remoteConfig activate];
+            [remoteConfig activateWithCompletionHandler: nil];
             if ([self isInitialized]){
                 Object *obj = ObjectDB::get_instance([scriptId intValue]);
                 obj->call_deferred(String("_on_firebase_remoteconfig_fetch_successed"), "FireBase RemoteConfig fetch successed.");
@@ -61,11 +62,27 @@ FIRRemoteConfig *remoteConfig;
 }
 
 - (void) setRemoteDefaultsFile:(NSString *)path; {
+    if (![self isInitialized]) { return; }
+
+    NSLog(@"Loading Defaults from fileeeee:%@", path);
+
     //<-- Load file content
+    NSError *error;
+    NSString *fileContents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+
+    if (error)
+        NSLog(@"Error reading file: %@", error.localizedDescription);
+        return;
+
+    // maybe for debugging...
+    NSLog(@"contents: %@", fileContents);
+
     // [self setRemoteDefaults: jsonData];
 }
 
 - (void) setRemoteDefaults:(NSString *)jsonData; {
+    if (![self isInitialized]) { return; }
+
     //<-- Convert from json to dict
     //[self setDefaults: map];
     if ([self isInitialized]){

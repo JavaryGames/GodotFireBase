@@ -4,10 +4,10 @@
 
 #import "Firebase.h"
 
-@implementation GodotFirebaseCrashlytics
-
-NSNumber *scriptId;
-NSString *userId;
+@implementation GodotFirebaseCrashlytics{
+    NSNumber *scriptId;
+    NSString *userId;
+}
 
 
 - (bool) isInitialized; {
