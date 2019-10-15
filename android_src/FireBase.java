@@ -64,7 +64,7 @@ public class FireBase extends Godot.SingletonBase {
 			"request_rewarded_video_status", "set_banner_unitid", "show_rvideo",
 			"request_rewarded_video_status_of", "get_banner_size", "is_banner_loaded",
 			"is_interstitial_loaded", "is_rewarded_video_loaded","load_rewarded_video",
-			"load_interstitial",
+			"load_interstitial", "create_banner",
 			//AdMob--
 
 			//Auth++
@@ -408,6 +408,14 @@ public class FireBase extends Godot.SingletonBase {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				AdMob.getInstance(activity).setBannerUnitId(unit_id);
+			}
+		});
+	}
+
+	public void create_banner() {
+		activity.runOnUiThread(new Runnable() {
+			public void run() {
+				AdMob.getInstance(activity).createBanner();
 			}
 		});
 	}
