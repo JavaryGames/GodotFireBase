@@ -21,13 +21,15 @@ GodotFirebase::~GodotFirebase() {
 
 void GodotFirebase::initWithJson(const String &json, const int script_id) {
     NSLog(@"Initializing firebase from objective-C...");
-    NSLog(@"json = %@", [NSString stringWithCString:json.utf8().get_data() encoding: NSUTF8StringEncoding]);
+    //NSLog(@"json = %@", [NSString stringWithCString:json.utf8().get_data() encoding: NSUTF8StringEncoding]);
     
     godot_script_id = script_id;
 
     [FIRApp configure];
 
     config = [NSJSONSerialization JSONObjectWithData:[[NSString stringWithCString:json.utf8().get_data() encoding: NSUTF8StringEncoding]  dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+
+    //NSLog(@"config = %@", config); 
 
     crashlytics = [GodotFirebaseCrashlytics alloc];
     [crashlytics init: config: script_id];
@@ -43,15 +45,19 @@ void GodotFirebase::initWithJson(const String &json, const int script_id) {
     
     rewardedVideo = [GodotFirebaseRewardedVideo alloc];
     [rewardedVideo init: config: script_id];
-    
-    notifications = [GodotFirebaseNotifications alloc];
-    [notifications initWithCallback: ^(){
-        NSLog(@"FireBase initialized. Calling _on_firebase_initialized on GDScript.");
-    	Object *obj = ObjectDB::get_instance(script_id);
-        Array params = Array();
-        params.push_back(String("FireBase successfully initialized."));
-    	obj->call_deferred(String("_on_firebase_initialized"), params);
-    }];
+
+    if ([[config valueForKey:@"Notification"] boolValue]) {
+        notifications = [GodotFirebaseNotifications alloc];
+        [notifications initWithCallback: ^(){
+            NSLog(@"FireBase notifications initialized.");
+        }];
+    }
+
+    NSLog(@"FireBase initialized. Calling _on_firebase_initialized on GDScript.");
+    Object *obj = ObjectDB::get_instance(script_id);
+    Array params = Array();
+    params.push_back(String("FireBase successfully initialized."));
+    obj->call_deferred(String("_on_firebase_initialized"), params);
     
 }
 
