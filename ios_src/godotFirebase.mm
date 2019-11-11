@@ -101,7 +101,7 @@ NSString *ns_string_from_gd_string(const String &string) {
 }
 
 String GodotFirebase::getToken(){
-    if (notifications != nil) {
+    if (notifications != NULL) {
         return String([[notifications getToken] UTF8String]);
     }
     NSLog(@"notifications object is null");

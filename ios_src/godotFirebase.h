@@ -49,7 +49,7 @@ class GodotFirebase : public Reference {
     interstitialAdPtr interstitialAd;
     rewardedVideoPtr rewardedVideo;
     analyticsPtr analytics;
-    notificationsPtr notifications;
+    notificationsPtr notifications = NULL;
     crashlyticsPtr crashlytics;
     remoteConfigPtr remoteConfig;
     
