@@ -7,6 +7,7 @@
 @implementation GodotFirebaseRemoteConfig{
     NSNumber *scriptId;
     FIRRemoteConfig *remoteConfig;
+    int scriptIdInt;
 }
 
 
@@ -14,6 +15,7 @@
     NSLog(@"Calling init from remote config");
 
     scriptId = [NSNumber numberWithInt:script_id_];
+    scriptIdInt = script_id_;
 
     remoteConfig = [FIRRemoteConfig remoteConfig];
     FIRRemoteConfigSettings *remoteConfigSettings = [[FIRRemoteConfigSettings alloc] init];
@@ -38,14 +40,14 @@
         if (error){
             NSLog(@"RemoteConfig, Fetch Failed");
             if ([self isInitialized]){
-                Object *obj = ObjectDB::get_instance([scriptId intValue]);
+                Object *obj = ObjectDB::get_instance(scriptIdInt);
                 obj->call_deferred(String("_on_firebase_remoteconfig_fetch_failed"), "FireBase RemoteConfig fetch failed.");
             }
         }else{
             NSLog(@"RemoteConfig, Fetch Succeeded");
             [remoteConfig activateWithCompletionHandler: nil];
             if ([self isInitialized]){
-                Object *obj = ObjectDB::get_instance([scriptId intValue]);
+                Object *obj = ObjectDB::get_instance(scriptIdInt);
                 obj->call_deferred(String("_on_firebase_remoteconfig_fetch_successed"), "FireBase RemoteConfig fetch successed.");
             }
         }
@@ -92,7 +94,7 @@
     [remoteConfig setDefaults: defaultsDict];
 
     if ([self isInitialized]){
-        Object *obj = ObjectDB::get_instance([scriptId intValue]);
+        Object *obj = ObjectDB::get_instance(scriptIdInt);
         obj->call_deferred(String("_on_firebase_remoteconfig_defaults_set"), "FireBase RemoteConfig defaults set.");
     }
 }
