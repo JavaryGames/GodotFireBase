@@ -101,7 +101,11 @@ NSString *ns_string_from_gd_string(const String &string) {
 }
 
 String GodotFirebase::getToken(){
-    return String([[notifications getToken] UTF8String]);
+    if (notifications != nil) {
+        return String([[notifications getToken] UTF8String]);
+    }
+    NSLog(@"notifications object is null");
+    return String();
 }
 
 void GodotFirebase::notifyInSecsWithTag(const String &message, const int seconds, const String &tag) {
