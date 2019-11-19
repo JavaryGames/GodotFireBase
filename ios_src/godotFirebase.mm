@@ -101,11 +101,16 @@ NSString *ns_string_from_gd_string(const String &string) {
 }
 
 String GodotFirebase::getToken(){
-    if (notifications != NULL) {
-        return String([[notifications getToken] UTF8String]);
-    }
-    NSLog(@"notifications object is null");
-    return String();
+    [[FIRInstanceID instanceID] instanceIDWithHandler:^(FIRInstanceIDResult * _Nullable result, NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"Error fetching remote instance ID: %@", error);
+        } else {
+            NSLog(@"Remote instance ID token: %@", result.token);
+            Object *gdscript_object = ObjectDB::get_instance(godot_script_id);
+            gdscript_object->call_deferred("_on_receive_token", [@"FireBase" UTF8String]);
+        }
+    }];
+    return "Please check the token on the callback...";
 }
 
 void GodotFirebase::notifyInSecsWithTag(const String &message, const int seconds, const String &tag) {
