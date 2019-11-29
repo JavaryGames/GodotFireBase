@@ -28,9 +28,15 @@
     for (List<Variant>::Element *E = keys.front(); E; E = E->next()) {
         String key = E->get();
         Variant *value = key_values->getptr(key);
-        String string_value = (String)*value;
-        
-        event_parameters[[NSString stringWithCString:key.utf8().get_data() encoding: NSUTF8StringEncoding]] = [NSString stringWithCString:string_value.utf8().get_data() encoding: NSUTF8StringEncoding];
+
+        if (value->get_type_name(value->get_type()) == "int"){
+            int int_value = (int)*value;
+            event_parameters[[NSString stringWithCString:key.utf8().get_data() encoding: NSUTF8StringEncoding]] = [NSNumber numberWithInt:int_value];
+        } else {
+            String string_value = (String)*value;
+            event_parameters[[NSString stringWithCString:key.utf8().get_data() encoding: NSUTF8StringEncoding]] = [NSString stringWithCString:string_value.utf8().get_data() encoding: NSUTF8StringEncoding];
+        }
+
     }
     
     // send data to firebase
