@@ -248,13 +248,15 @@ crashlytics {
 
 
         env.android_add_dependency("compile 'commons-codec:commons-codec:1.10'")
+        env.android_add_dependency("implementation 'com.android.support:multidex:1.0.3'")
 
-        env.android_add_java_dir("android");
-        env.android_add_res_dir("res");
-        env.android_add_to_manifest("android/AndroidManifestChunk.xml");
-        env.android_add_to_permissions("android/AndroidPermissionsChunk.xml");
+        env.android_add_java_dir("android")
+        env.android_add_res_dir("res")
+        env.android_add_to_manifest("android/AndroidManifestChunk.xml")
+        env.android_add_to_permissions("android/AndroidPermissionsChunk.xml")
         env.android_add_default_config("minSdkVersion 15")
         env.android_add_default_config("applicationId '"+ p_app_id +"'")
+        env.android_add_default_config("multiDexEnabled true")
 
     elif env["platform"] == "iphone":
         env.Append(FRAMEWORKPATH=['ios_src/lib'])
