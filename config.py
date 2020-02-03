@@ -181,6 +181,7 @@ def update_module():
 
 def configure(env):
     if env["platform"] == "android":
+        return
         env.android_add_maven_repository("url 'https://maven.fabric.io/public'")
         env.android_add_maven_repository("url 'https://maven.google.com'")
         env.android_add_maven_repository(\

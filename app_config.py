@@ -1,14 +1,15 @@
+import sys
 #!/usr/bin/env python
 
 # Set your Android app ID
-p_app_id = "com.godot.game"
+p_app_id = "com.javarygames.mathy"
 
 # Update this to customize the module
 p_config = {
-"Analytics"      : False,
+"Analytics"      : True,
 "AdMob"          : True,
 "Invites"        : False,
-"RemoteConfig"   : False,
+"RemoteConfig"   : True,
 "Notification"   : True,
 "Storage"        : False,
 "Firestore"      : False,
