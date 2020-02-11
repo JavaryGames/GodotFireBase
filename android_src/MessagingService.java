@@ -103,7 +103,7 @@ public class MessagingService extends FirebaseMessagingService {
         if (bundle.get("large_icon") != null) {
 			large_icon = Utils.getBitmapFromAsset(context, bundle.getString("large_icon"));
         } else {
-            large_icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
+            large_icon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon);
         }
 
 		NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context)
@@ -135,7 +135,7 @@ public class MessagingService extends FirebaseMessagingService {
 		RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
 		NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context)
-        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
+        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon))
 		.setSmallIcon(R.drawable.notification_small_icon)
 		.setContentTitle(context.getString(R.string.godot_project_name_string))
 		.setContentText(messageBody)

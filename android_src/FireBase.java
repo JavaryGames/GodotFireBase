@@ -18,11 +18,13 @@ package org.godotengine.godot;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.View;
 import android.os.Bundle;
 import android.content.Intent;
+import android.widget.FrameLayout;
+
+import com.godot.game.R;
 
 import java.util.Arrays;
 import java.util.List;
@@ -236,7 +238,7 @@ public class FireBase extends Godot.SingletonBase {
 		AlertDialog.Builder bld;
 
 		bld = new AlertDialog.Builder(activity, AlertDialog.THEME_HOLO_LIGHT);
-		bld.setIcon (com.godot.game.R.drawable.icon);
+		bld.setIcon (com.godot.game.R.mipmap.icon);
 		bld.setTitle(title);
 		bld.setMessage(message);
 		bld.setNeutralButton("OK", null);

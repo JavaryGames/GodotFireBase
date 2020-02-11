@@ -55,7 +55,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
-public class AdMob {
+public class AdMob extends Godot.SingletonBase {
+	FrameLayout layout = null;
 
 	public static AdMob getInstance (Activity p_activity) {
 		if (mInstance == null) {
@@ -139,11 +140,16 @@ public class AdMob {
 
 		createBanner(ad_unit_id);
 	}
-
+	
+	@Override
+	public View onMainCreateView(Activity activity) {
+		layout = new FrameLayout(activity);
+		return layout;
+	}
+	
 	public void createBanner(final String ad_unit_id) {
         mAdViewLoaded = false;
 
-		FrameLayout layout = ((Godot)activity).layout; // Getting Godots framelayout
 		FrameLayout.LayoutParams AdParams = new FrameLayout.LayoutParams(
 							FrameLayout.LayoutParams.MATCH_PARENT,
 							FrameLayout.LayoutParams.WRAP_CONTENT);
