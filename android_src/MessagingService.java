@@ -16,6 +16,7 @@
 
 package org.godotengine.godot;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -26,6 +27,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.os.Build;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -61,12 +63,22 @@ public class MessagingService extends FirebaseMessagingService {
 
 		// Check if message contains a notification payload.
 		if (remoteMessage.getNotification() != null) {
-			Utils.d(
-			"Notification Body: " + remoteMessage.getNotification().getBody());
+			Utils.d("Notification Body: " + remoteMessage.getNotification().getBody());
 
 			sendNotification(remoteMessage.getNotification().getBody(), -2, this);
 		}
 	}
+
+    @Override
+    public void onNewToken(String token) {
+        Utils.d("Refreshed token: " + token);
+        sendRegistrationToServer(token);
+    }
+
+    private void sendRegistrationToServer(String token) {
+        // TODO: Implement this method to send token to your app server.
+        Utils.d("Token: " + token);
+    }
 
 	private void handleData (Map<String, String> data) {
 		// TODO: Perform some action now..!
@@ -134,17 +146,30 @@ public class MessagingService extends FirebaseMessagingService {
 		Uri defaultSoundUri =
 		RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-		NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context)
-        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
-		.setSmallIcon(R.drawable.notification_small_icon)
-		.setContentTitle(context.getString(R.string.godot_project_name_string))
-		.setContentText(messageBody)
-		.setAutoCancel(true)
-		.setSound(defaultSoundUri)
-		.setContentIntent(pendingIntent);
+		NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context, String.valueOf(NOTIFICATION_REQUEST_ID))
+      .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
+			.setSmallIcon(R.drawable.notification_small_icon)
+			.setContentTitle(context.getString(R.string.godot_project_name_string))
+			.setContentText(messageBody)
+			.setAutoCancel(true)
+			.setPriority(NotificationCompat.PRIORITY_DEFAULT)
+			.setSound(defaultSoundUri)
+			.setContentIntent(pendingIntent);
 
 		NotificationManager notificationManager =
 		(NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+		// To support for Android 8+, notifications must have a unique channel and priority assigned to them.
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			CharSequence name = context.getString(R.string.godot_project_name_string);
+			String description = context.getString(R.string.godot_project_name_string);
+			int importance = NotificationManager.IMPORTANCE_DEFAULT;
+			NotificationChannel channel = new NotificationChannel(String.valueOf(NOTIFICATION_REQUEST_ID), name, importance);
+			channel.setDescription(description);
+			// Register the channel with the system; you can't change the importance
+			// or other notification behaviors after this
+			notificationManager.createNotificationChannel(channel);
+    }
 
 		notificationManager.notify(7002, nBuilder.build());
 	}
