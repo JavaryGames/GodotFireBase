@@ -147,14 +147,15 @@ public class MessagingService extends FirebaseMessagingService {
 		RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
 		NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(context, String.valueOf(NOTIFICATION_REQUEST_ID))
-      .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
+      		.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
 			.setSmallIcon(R.drawable.notification_small_icon)
 			.setContentTitle(context.getString(R.string.godot_project_name_string))
 			.setContentText(messageBody)
 			.setAutoCancel(true)
 			.setPriority(NotificationCompat.PRIORITY_DEFAULT)
 			.setSound(defaultSoundUri)
-			.setContentIntent(pendingIntent);
+			.setContentIntent(pendingIntent)
+			.setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody));
 
 		NotificationManager notificationManager =
 		(NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
