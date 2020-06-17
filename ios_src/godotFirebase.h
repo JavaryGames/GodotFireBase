@@ -77,6 +77,7 @@ public:
     
     String getToken();
     void notifyInSecsWithTag(const String &message, const int seconds, const String &tag);
+    void notifyWithBadgeMM();
     void cancelNotificationWithTag(const String &tag);
     void cancelAllPendingNotificationRequests();
 

@@ -124,6 +124,11 @@ void GodotFirebase::notifyInSecsWithTag(const String &message, const int seconds
                                    withTag: ns_tag];
 }
 
+void GodotFirebase::notifyWithBadgeMM() {
+    NSLog(@"godotFirebase.mm::notifyWithBadge");
+    [notifications notifyWithBadge];
+}
+
 void GodotFirebase::cancelNotificationWithTag(const String &tag) {
     [notifications cancelNotificationWithTag: ns_string_from_gd_string(tag)];
 }
@@ -236,6 +241,7 @@ void GodotFirebase::_bind_methods() {
     CLASS_DB::bind_method("send_events", &GodotFirebase::send_events);
     // Notifications
     CLASS_DB::bind_method("notify_in_secs_with_tag", &GodotFirebase::notifyInSecsWithTag);
+    CLASS_DB::bind_method("notify_with_badge", &GodotFirebase::notifyWithBadgeMM);
     CLASS_DB::bind_method("cancel_notification_with_tag", &GodotFirebase::cancelNotificationWithTag);
     CLASS_DB::bind_method("cancel_all_pending_notification_requests", &GodotFirebase::cancelAllPendingNotificationRequests);
     CLASS_DB::bind_method("getToken", &GodotFirebase::getToken);
