@@ -194,6 +194,7 @@ def configure(env):
         env.android_add_dependency("compile 'com.google.firebase:firebase-analytics:16.0.1'")
         env.android_add_dependency("compile 'com.google.android.gms:play-services-measurement-base:16.0.0'")
         env.android_add_dependency("implementation 'com.android.support:support-v4:28.0.0'")
+        env.android_add_dependency("compile group: 'org.jvnet.sorcerer', name: 'sorcerer-javac', version: '0.8'")
 
         if p_config["Auth"]:
             env.android_add_dependency("compile 'com.google.firebase:firebase-auth:16.0.3'")
