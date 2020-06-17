@@ -11,7 +11,7 @@ BOOL is_authorized;
 
 - (void) initWithCallback: (void (^)()) callback; {
     center = [UNUserNotificationCenter currentNotificationCenter];
-    options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
+    options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound + UNAuthorizationOptionBadge;
     is_authorized = NO;
     NSLog(@"Calling init from analytics");
     // check if already authorized
@@ -51,7 +51,8 @@ BOOL is_authorized;
         content.title = title;
         content.body = message;
         content.sound = [UNNotificationSound defaultSound];
-        
+        //content.badge = [NSNumber numberWithInt: 1];
+
         UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval: seconds repeats: NO];
         UNNotificationRequest *request = [UNNotificationRequest
                                             requestWithIdentifier: tag
@@ -63,6 +64,32 @@ BOOL is_authorized;
                          NSLog(@"Failed to schedule notification: %@",error);
                      } else {
                          NSLog(@"Successfully scheduled notification to %d seconds from now", seconds);
+                     }
+                 }];
+    }
+}
+
+- (void) notifyWithBadge; {
+    if (!is_authorized) {
+        NSLog(@"Trying to show badge; not authorized");
+    }
+    else {
+        NSLog(@"MATEUS, COMECEI O ELSE");
+        UNMutableNotificationContent *content = [UNMutableNotificationContent new];
+        content.badge = [NSNumber numberWithInt: 1];
+        NSLog(@"MATEUS, ATE AGRA OK");
+        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval: 1 repeats: NO];
+        UNNotificationRequest *request = [UNNotificationRequest
+                                            requestWithIdentifier: @"soon"
+                                            content: content
+                                            trigger: trigger];
+        NSLog(@"MATEUS, ESTAMOS INDO BEM");
+        [center addNotificationRequest: request
+                 withCompletionHandler:^(NSError * _Nullable error) {
+                     if (error != nil) {
+                         NSLog(@"Failed to show badge", error);
+                     } else {
+                         NSLog(@"Successfully show badge");
                      }
                  }];
     }
