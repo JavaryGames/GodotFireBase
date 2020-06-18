@@ -51,7 +51,6 @@ BOOL is_authorized;
         content.title = title;
         content.body = message;
         content.sound = [UNNotificationSound defaultSound];
-        //content.badge = [NSNumber numberWithInt: 1];
 
         UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval: seconds repeats: NO];
         UNNotificationRequest *request = [UNNotificationRequest
@@ -76,11 +75,17 @@ BOOL is_authorized;
     else {
         NSLog(@"MATEUS, COMECEI O ELSE");
         UNMutableNotificationContent *content = [UNMutableNotificationContent new];
-        content.badge = [NSNumber numberWithInt: 1];
+        content.title = [NSString localizedUserNotificationStringForKey:@"Hello!" arguments:nil];
+        content.body = [NSString localizedUserNotificationStringForKey:@"notifyWithBadgeParceiro"
+                    arguments:nil];
+        NSNumber *badge_qty = [NSNumber numberWithInt:8];
+        content.badge = badge_qty;
+        NSLog(@"MATEUS, aqui é o badge_qty: %@", badge_qty);
         NSLog(@"MATEUS, ATE AGRA OK");
+        NSLog(@"MATEUS, aqui é o content.badge: %@", content.badge);
         UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval: 1 repeats: NO];
         UNNotificationRequest *request = [UNNotificationRequest
-                                            requestWithIdentifier: @"soon"
+                                            requestWithIdentifier: @"badge"
                                             content: content
                                             trigger: trigger];
         NSLog(@"MATEUS, ESTAMOS INDO BEM");
@@ -90,6 +95,38 @@ BOOL is_authorized;
                          NSLog(@"Failed to show badge", error);
                      } else {
                          NSLog(@"Successfully show badge");
+                     }
+                 }];
+    }
+}
+
+- (void) clearNotifyBadge; {
+    if (!is_authorized) {
+        NSLog(@"Trying to clear badge; not authorized");
+    }
+    else {
+        NSLog(@"MATEUS, COMECEI O CLEAR ELSE");
+        UNMutableNotificationContent *content = [UNMutableNotificationContent new];
+        content.title = [NSString localizedUserNotificationStringForKey:@"Bye!" arguments:nil];
+        content.body = [NSString localizedUserNotificationStringForKey:@"clearNotifyBadgeParceiro"
+                    arguments:nil];
+        NSNumber *badge_qty = [NSNumber numberWithInt:0];
+        content.badge = badge_qty;
+        NSLog(@"MATEUS, aqui é o badge_qty: %@", badge_qty);
+        NSLog(@"MATEUS, ATE AGRA OK");
+        NSLog(@"MATEUS, aqui é o content.badge: %@", content.badge);
+        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval: 1 repeats: NO];
+        UNNotificationRequest *request = [UNNotificationRequest
+                                            requestWithIdentifier: @"badge"
+                                            content: content
+                                            trigger: trigger];
+        NSLog(@"MATEUS, ESTAMOS INDO BEM CLEAR");
+        [center addNotificationRequest: request
+                 withCompletionHandler:^(NSError * _Nullable error) {
+                     if (error != nil) {
+                         NSLog(@"Failed to clear badge", error);
+                     } else {
+                         NSLog(@"Successfully clear badge");
                      }
                  }];
     }

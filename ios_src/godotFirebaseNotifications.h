@@ -11,6 +11,7 @@
                         withSeconds: (int) seconds
                             withTag: (NSString *)  tag;
 - (void) notifyWithBadge;
+- (void) clearNotifyBadge;
 - (void) cancelNotificationWithTag: (NSString *) tag;
 - (void) cancelAllPendingNotificationRequests;
 
