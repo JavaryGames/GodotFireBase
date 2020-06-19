@@ -100,24 +100,8 @@ BOOL is_authorized;
         NSLog(@"Trying to clear badge; not authorized");
     }
     else {
-        UNMutableNotificationContent *content = [UNMutableNotificationContent new];
-        NSNumber *badge_qty = [NSNumber numberWithInt:0];
-        content.badge = badge_qty;
-        content.title = @"Mano";
-        content.body = @"Caramba";
-        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval: 2 repeats: NO];
-        UNNotificationRequest *request = [UNNotificationRequest
-                                            requestWithIdentifier: @"clear_badge"
-                                            content: content
-                                            trigger: trigger];
-        [center addNotificationRequest: request
-                 withCompletionHandler:^(NSError * _Nullable error) {
-                     if (error != nil) {
-                         NSLog(@"Failed to clear badge", error);
-                     } else {
-                         NSLog(@"Successfully clear badge");
-                     }
-                 }];
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+        NSLog(@"Successfully clear badge");
     }
 }
 
