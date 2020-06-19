@@ -3,6 +3,8 @@
 #import <UserNotifications/UserNotifications.h>;
 #import "Firebase.h"
 
+#define AppDelegate (YourAppDelegate *)[[UIApplication sharedApplication] delegate]
+
 UNUserNotificationCenter *center;
 UNAuthorizationOptions options;
 BOOL is_authorized;
@@ -11,6 +13,7 @@ BOOL is_authorized;
 
 - (void) initWithCallback: (void (^)()) callback; {
     center = [UNUserNotificationCenter currentNotificationCenter];
+    center.delegate = self;
     options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound + UNAuthorizationOptionBadge;
     is_authorized = NO;
     NSLog(@"Calling init from analytics");
@@ -73,22 +76,14 @@ BOOL is_authorized;
         NSLog(@"Trying to show badge; not authorized");
     }
     else {
-        NSLog(@"MATEUS, COMECEI O ELSE");
         UNMutableNotificationContent *content = [UNMutableNotificationContent new];
-        content.title = [NSString localizedUserNotificationStringForKey:@"Hello!" arguments:nil];
-        content.body = [NSString localizedUserNotificationStringForKey:@"notifyWithBadgeParceiro"
-                    arguments:nil];
-        NSNumber *badge_qty = [NSNumber numberWithInt:8];
+        NSNumber *badge_qty = [NSNumber numberWithInt:1];
         content.badge = badge_qty;
-        NSLog(@"MATEUS, aqui é o badge_qty: %@", badge_qty);
-        NSLog(@"MATEUS, ATE AGRA OK");
-        NSLog(@"MATEUS, aqui é o content.badge: %@", content.badge);
-        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval: 1 repeats: NO];
+        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval: 2 repeats: NO];
         UNNotificationRequest *request = [UNNotificationRequest
-                                            requestWithIdentifier: @"badge"
+                                            requestWithIdentifier: @"notify_badge"
                                             content: content
                                             trigger: trigger];
-        NSLog(@"MATEUS, ESTAMOS INDO BEM");
         [center addNotificationRequest: request
                  withCompletionHandler:^(NSError * _Nullable error) {
                      if (error != nil) {
@@ -105,22 +100,16 @@ BOOL is_authorized;
         NSLog(@"Trying to clear badge; not authorized");
     }
     else {
-        NSLog(@"MATEUS, COMECEI O CLEAR ELSE");
         UNMutableNotificationContent *content = [UNMutableNotificationContent new];
-        content.title = [NSString localizedUserNotificationStringForKey:@"Bye!" arguments:nil];
-        content.body = [NSString localizedUserNotificationStringForKey:@"clearNotifyBadgeParceiro"
-                    arguments:nil];
         NSNumber *badge_qty = [NSNumber numberWithInt:0];
         content.badge = badge_qty;
-        NSLog(@"MATEUS, aqui é o badge_qty: %@", badge_qty);
-        NSLog(@"MATEUS, ATE AGRA OK");
-        NSLog(@"MATEUS, aqui é o content.badge: %@", content.badge);
-        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval: 1 repeats: NO];
+        content.title = @"Mano";
+        content.body = @"Caramba";
+        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval: 2 repeats: NO];
         UNNotificationRequest *request = [UNNotificationRequest
-                                            requestWithIdentifier: @"badge"
+                                            requestWithIdentifier: @"clear_badge"
                                             content: content
                                             trigger: trigger];
-        NSLog(@"MATEUS, ESTAMOS INDO BEM CLEAR");
         [center addNotificationRequest: request
                  withCompletionHandler:^(NSError * _Nullable error) {
                      if (error != nil) {
@@ -140,6 +129,13 @@ BOOL is_authorized;
 - (void) cancelAllPendingNotificationRequests; {
     NSLog(@"Cancelling all pending notifications"); 
     [center removeAllPendingNotificationRequests];
+}
+
+
+//Called when a notification is delivered to a foreground app.
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler{
+    NSLog(@"User Info : %@",notification.request.content.userInfo);
+    completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
 }
 
 
