@@ -71,7 +71,7 @@ BOOL is_authorized;
     }
 }
 
-- (void) notifyWithBadge; {
+- (void) notifyWithBadge: (int) seconds; {
     if (!is_authorized) {
         NSLog(@"Trying to show badge; not authorized");
     }
@@ -79,7 +79,7 @@ BOOL is_authorized;
         UNMutableNotificationContent *content = [UNMutableNotificationContent new];
         NSNumber *badge_qty = [NSNumber numberWithInt:1];
         content.badge = badge_qty;
-        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval: 2 repeats: NO];
+        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval: seconds repeats: NO];
         UNNotificationRequest *request = [UNNotificationRequest
                                             requestWithIdentifier: @"notify_badge"
                                             content: content

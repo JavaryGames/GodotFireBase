@@ -124,9 +124,9 @@ void GodotFirebase::notifyInSecsWithTag(const String &message, const int seconds
                                    withTag: ns_tag];
 }
 
-void GodotFirebase::notifyWithBadgeMM() {
-    NSLog(@"godotFirebase.mm::notifyWithBadge");
-    [notifications notifyWithBadge];
+void GodotFirebase::notifyWithBadgeMM(const int seconds) {
+    NSLog(@"godotFirebase.mm::notifyWithBadge: %d", seconds);
+    [notifications notifyWithBadge: seconds];
 }
 
 void GodotFirebase::clearNotifyBadgeMM() {
