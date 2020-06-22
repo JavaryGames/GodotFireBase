@@ -10,7 +10,7 @@
                           withTitle: (NSString *) title
                         withSeconds: (int) seconds
                             withTag: (NSString *)  tag;
-- (void) notifyWithBadge;
+- (void) notifyWithBadge: (int) seconds;
 - (void) clearNotifyBadge;
 - (void) cancelNotificationWithTag: (NSString *) tag;
 - (void) cancelAllPendingNotificationRequests;
