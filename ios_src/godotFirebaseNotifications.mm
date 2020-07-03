@@ -119,7 +119,7 @@ BOOL is_authorized;
 //Called when a notification is delivered to a foreground app.
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler{
     NSLog(@"User Info : %@",notification.request.content.userInfo);
-    completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
+    completionHandler(UNAuthorizationOptionBadge);
 }
 
 
