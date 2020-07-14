@@ -102,6 +102,7 @@ public class FireBase extends Godot.SingletonBase {
 
 			//RemoteConfig++
 			"getRemoteValue", "setRemoteDefaults", "setRemoteDefaultsFile",
+			"fetchRemoteConfigs",
 			//RemoteConfig--
 
 			//Storage++
@@ -767,6 +768,10 @@ public class FireBase extends Godot.SingletonBase {
 	//Invites--
 
 	//RemoteConfig++
+	public void fetchRemoteConfigs() {
+		RemoteConfig.getInstance(activity).fetchRemoteConfigs();
+	}
+
 	public String getRemoteValue (final String key) {
 		if (key.length() <= 0) {
 			Utils.d("getting remote config: key not provided, returning null");

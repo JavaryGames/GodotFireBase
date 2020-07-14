@@ -62,7 +62,7 @@ public class RemoteConfig {
 		fetchRemoteConfigs();
 	}
 
-	private void fetchRemoteConfigs () {
+	public void fetchRemoteConfigs () {
 		Utils.d("Loading Remote Configs");
 
 		long cacheExpiration = 3600;
