@@ -19,6 +19,7 @@ package org.godotengine.godot;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -29,6 +30,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.os.Build;
 import android.util.Log;
+import java.util.List;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -45,6 +47,17 @@ import org.godotengine.godot.KeyValueStorage;
 public class MessagingService extends FirebaseMessagingService {
 
 	private static int NOTIFICATION_REQUEST_ID	= 8001;
+
+	private static boolean applicationInForeground(Context context) {
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningAppProcessInfo> services = activityManager.getRunningAppProcesses();
+		boolean isActivityFound = false;
+	
+		if (services.get(0).processName.equalsIgnoreCase(context.getPackageName()) && services.get(0).importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+			isActivityFound = true;
+		}
+		return isActivityFound;
+	}
 
 	@Override
 	public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -135,6 +148,9 @@ public class MessagingService extends FirebaseMessagingService {
 	}
 
 	public static void sendNotification(String messageBody, int seconds, Context context) {
+		if (applicationInForeground(context)) {
+			return;
+		}
 		Intent intent = new Intent(context, org.godotengine.godot.Godot.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.putExtra("notification_seconds", seconds);
