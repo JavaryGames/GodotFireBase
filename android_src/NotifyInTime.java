@@ -35,12 +35,11 @@ public class NotifyInTime extends JobService {
 
 		Bundle bundle = job.getExtras();
 
-		if (bundle.getString("type").equals("image")) {
-			MessagingService.sendNotification(bundle, this);
-		}
-		else {
-			MessagingService.sendNotification(bundle.getString("message"), bundle.getInt("notification_seconds"), this);
-		}
+        if (bundle.getString("type").equals("image")) {
+    		MessagingService.sendNotification(bundle, this);
+        } else {
+    		MessagingService.sendNotification(bundle.getString("message"), bundle.getInt("notification_seconds"), this);
+        }
 
 		return false; // Answers the question: "Is there still work going on?"
 	}
